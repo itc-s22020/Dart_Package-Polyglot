@@ -18,7 +18,7 @@ void main() {
       }
       res = 'test/png/res';
       pngData = File('$dir/$res/default.png').readAsBytesSync();
-      polyglotData = File('$dir/$res/test.zip').readAsBytesSync();
+      polyglotData = File('$dir/test/res/test.zip').readAsBytesSync();
     });
 
 

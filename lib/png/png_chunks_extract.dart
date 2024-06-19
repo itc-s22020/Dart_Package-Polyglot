@@ -7,22 +7,22 @@ List<Map<String, dynamic>> extractChunks(Uint8List data) {
     throw ArgumentError('Invalid .png file header');
   }
 
-  var ended = false;
-  var chunks = <Map<String, dynamic>>[];
-  var idx = 8;
+  bool ended = false;
+  final List<Map<String, dynamic>> chunks = <Map<String, dynamic>>[];
+  int idx = 8;
 
   while (idx < data.length) {
-    var uint32 = ByteData.sublistView(data, idx, idx + 4).getUint32(0, Endian.big);
+    final int uint32 = ByteData.sublistView(data, idx, idx + 4).getUint32(0, Endian.big);
     idx += 4;
 
-    var length = uint32 + 4;
-    var chunk = Uint8List(length);
+    final int length = uint32 + 4;
+    final Uint8List chunk = Uint8List(length);
 
     chunk.setRange(0, 4, data.sublist(idx, idx + 4));
     idx += 4;
 
-    var charCodes = chunk.sublist(0, 4);
-    var name = String.fromCharCodes(charCodes);
+    final Uint8List charCodes = chunk.sublist(0, 4);
+    final String name = String.fromCharCodes(charCodes);
 
     if (chunks.isEmpty && name != 'IHDR') {
       throw UnsupportedError('IHDR header missing');
@@ -40,16 +40,16 @@ List<Map<String, dynamic>> extractChunks(Uint8List data) {
     chunk.setRange(4, length, data.sublist(idx, idx + length - 4));
     idx += length - 4;
 
-    var crcActual = ByteData.sublistView(data, idx, idx + 4).getInt32(0, Endian.big);
+    final int crcActual = ByteData.sublistView(data, idx, idx + 4).getInt32(0, Endian.big);
     idx += 4;
 
-    var crcExpect = Crc32.getCrc32(chunk);
+    final int crcExpect = Crc32.getCrc32(chunk);
     if (crcExpect != crcActual) {
       throw UnsupportedError(
           'CRC values for $name header do not match, PNG file is likely corrupted');
     }
 
-    var chunkData = Uint8List.fromList(chunk.sublist(4));
+    final Uint8List chunkData = Uint8List.fromList(chunk.sublist(4));
 
     chunks.add({'name': name, 'data': chunkData});
   }

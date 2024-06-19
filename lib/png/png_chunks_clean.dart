@@ -4,34 +4,40 @@ import 'package:archive/archive.dart' hide Crc32;
 import 'package:polyglot/png/png_chunks_encode.dart';
 import 'package:polyglot/png/png_chunks_extract.dart';
 
-Uint8List cleanChunks(Uint8List data) {
-  var chunks = extractChunks(data);
-  var necessaryChunks = <Map<String, dynamic>>[];
-  var idatData = <int>[];
 
-  for (var chunk in chunks) {
-    var name = chunk['name'] as String;
+Uint8List cleanChunks(Uint8List data) {
+  final List<Map<String, dynamic>> chunks = extractChunks(data);
+  final List<Map<String, dynamic>> essentialChunks = <Map<String, dynamic>>[];
+  final List<int> idatData = <int>[];
+
+  for (final Map<String, dynamic> chunk in chunks) {
+    final String name = chunk['name'] as String;
     if (name == 'IHDR' || name == 'IEND') {
-      necessaryChunks.add(chunk);
+      essentialChunks.add(chunk);
     } else if (name == 'IDAT') {
       idatData.addAll(chunk['data'] as Uint8List);
     }
   }
 
   if (idatData.isNotEmpty) {
-    var decompressedData = const ZLibDecoder().decodeBytes(Uint8List.fromList(idatData));
-    var compressedData = const ZLibEncoder().encode(Uint8List.fromList(decompressedData));
+    try {
+      final List<int> decompressedData = const ZLibDecoder().decodeBytes(Uint8List.fromList(idatData));
+      final List<int> compressedData = const ZLibEncoder().encode(Uint8List.fromList(decompressedData));
 
-
-    if (compressedData.isNotEmpty) {
-      var crc = Crc32.getCrc32(compressedData);
-      necessaryChunks.insert(1, {'name': 'IDAT', 'data': Uint8List.fromList(compressedData)});
-
-      var crcBytes = Uint8List(4);
-      ByteData.sublistView(crcBytes, 0, 4).setUint32(0, crc, Endian.big);
-      necessaryChunks[1]['crc'] = crcBytes;
+      if (compressedData.isNotEmpty) {
+        final int crc = Crc32.getCrc32(compressedData);
+        Uint8List crcBytes = Uint8List(4);
+        ByteData.sublistView(crcBytes, 0, 4).setUint32(0, crc, Endian.big);
+        essentialChunks.insert(1, {
+          'name': 'IDAT',
+          'data': Uint8List.fromList(compressedData),
+          'crc': crcBytes
+        });
+      }
+    } catch (e) {
+      throw UnsupportedError('Error processing IDAT data: $e');
     }
   }
 
-  return encodeChunks(necessaryChunks);
+  return encodeChunks(essentialChunks);
 }

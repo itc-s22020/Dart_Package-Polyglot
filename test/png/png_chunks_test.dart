@@ -20,7 +20,7 @@ void main() {
   });
 
   test('display PNG chunks', () {
-    final chunks = extractChunks(data);
+    final chunks = pngExtractChunks(data);
     for (final Map<String, dynamic> chunk in chunks) {
         if (kDebugMode) {
           print('Chunk name: ${chunk['name']}');

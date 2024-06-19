@@ -5,8 +5,8 @@ import 'package:polyglot/png/png_chunks_encode.dart';
 import 'package:polyglot/png/png_chunks_extract.dart';
 
 
-Uint8List cleanChunks(Uint8List data) {
-  final List<Map<String, dynamic>> chunks = extractChunks(data);
+Uint8List pngCleanChunks(Uint8List data) {
+  final List<Map<String, dynamic>> chunks = pngExtractChunks(data);
   final List<Map<String, dynamic>> essentialChunks = <Map<String, dynamic>>[];
   final List<int> idatData = <int>[];
 
@@ -39,5 +39,5 @@ Uint8List cleanChunks(Uint8List data) {
     }
   }
 
-  return encodeChunks(essentialChunks);
+  return pngEncodeChunks(essentialChunks);
 }

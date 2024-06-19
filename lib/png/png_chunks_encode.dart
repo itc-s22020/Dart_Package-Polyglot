@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import '../crc32.dart';
 
-Uint8List encodeChunks(List<Map<String, dynamic>> chunks) {
+Uint8List pngEncodeChunks(List<Map<String, dynamic>> chunks) {
   int totalSize = 8;
   int idx = totalSize;
 

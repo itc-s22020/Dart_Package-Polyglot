@@ -22,11 +22,11 @@ void main() {
   });
 
   test('clean PNG chunks', () {
-    final Uint8List cleanedData = cleanChunks(data);
+    final Uint8List cleanedData = pngCleanChunks(data);
     final File outputFile = File('$dir/$res/cleaned.png');
     outputFile.writeAsBytesSync(cleanedData);
 
-    final List<Map<String, dynamic>> chunks = extractChunks(cleanedData);
+    final List<Map<String, dynamic>> chunks = pngExtractChunks(cleanedData);
     for (final Map<String, dynamic> chunk in chunks) {
       expect(chunk['name'], anyOf(['IHDR', 'IDAT', 'IEND']));
     }

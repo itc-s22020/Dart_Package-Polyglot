@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:polyglot/png/png_chunks_clean.dart';
 import 'package:polyglot/png/png_chunks_extract.dart';
@@ -21,7 +20,7 @@ void main() {
     data = file.readAsBytesSync();
   });
 
-  test('clean PNG chunks', () {
+  test('PNG clean chunks', () {
     final Uint8List cleanedData = pngCleanChunks(data);
     final File outputFile = File('$dir/$res/cleaned.png');
     outputFile.writeAsBytesSync(cleanedData);

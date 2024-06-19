@@ -15,7 +15,7 @@ void main() {
       dir = dir.replaceAll('/test', '');
     }
     res = 'test/png/res';
-    file = File('$dir/$res/default.png');
+    file = File('$dir/$res/polyglot_test.png');
     data = file.readAsBytesSync();
   });
 

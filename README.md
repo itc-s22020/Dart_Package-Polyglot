@@ -1,30 +1,38 @@
+- pngPolyglot
+    - png内のIDATチャンクを利用したポリグロットファイルの作成
 ```mermaid
 classDiagram
-    class Crc32 {
-        <<static>>
-        +List<int> _createCrc32Table()
-        +int getCrc32(List<int> bytes)
-    }
-    
-    class PNGChunk {
-        +String name
-        +Uint8List data
-    }
-    
-    class PNGEncoder {
-        +Uint8List encodeChunks(List<PNGChunk> chunks)
-    }
-    
-    class PNGExtractor {
-        +List<PNGChunk> extractChunks(Uint8List data)
-    }
-    
-    class PNGCleaner {
-        +Uint8List cleanChunks(Uint8List data)
-        +Uint8List removeInvalidData(Uint8List data)
-    }
-    
-    Crc32 <|-- PNGCleaner
-    PNGCleaner <|-- PNGExtractor
-    PNGCleaner <|-- PNGEncoder
+
+%%png
+pngEncoder --|> pngCleaner
+pngExtractor --|> pngCleaner
+pngEncoder --|> pngPolyglot
+pngExtractor --|> pngPolyglot
+pngCleaner --|> pngPolyglot
+pngExtractor ..> pngEncoder
+Crc32 --|> pngEncoder
+Crc32 --|> pngExtractor
+Crc32 --|> pngCleaner
+
+	direction RL
+	namespace PNG {
+		class pngPolyglot {
+			+pngPolyglot(Uint8List pngData, Uint8List polyglotData) Uint8List
+		}
+	
+		class pngEncoder {
+			+pngEncodeChunks(List chunks) Uint8List
+		}
+		class pngExtractor {
+			+pngExtractChunks(Uint8List data) List
+		}
+		class pngCleaner {
+			+pngCleanChunks(Uint8List data) Uint8List
+		}
+		class Crc32 {
+			<<static>>
+			List _crc32Table
+			+getCrc32(List array, int crc = 0xffffffff) int
+		}
+	}
 ```

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:polyglot/png/png_chunks_extract.dart';
+import 'package:polyglot/png/png_extract_chunks.dart';
 import 'package:polyglot/png/png_polyglot.dart';
 
 void main() {

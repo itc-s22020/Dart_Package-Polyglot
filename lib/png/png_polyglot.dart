@@ -1,7 +1,7 @@
 import 'dart:typed_data';
-import 'package:polyglot/png/png_chunks_clean.dart';
-import 'package:polyglot/png/png_chunks_encode.dart';
-import 'package:polyglot/png/png_chunks_extract.dart';
+import 'package:polyglot/png/png_clean_chunks.dart';
+import 'package:polyglot/png/png_encode_chunks.dart';
+import 'package:polyglot/png/png_extract_chunks.dart';
 
 Uint8List pngPolyglot(Uint8List pngData, Uint8List polyglotData) {
   final Uint8List cleanedPngData = pngCleanChunks(pngData);

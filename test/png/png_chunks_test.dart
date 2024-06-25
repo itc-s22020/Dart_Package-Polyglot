@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:polyglot/png/png_chunks_extract.dart';
+import 'package:polyglot/png/png_extract_chunks.dart';
 
 void main() {
   late String dir;

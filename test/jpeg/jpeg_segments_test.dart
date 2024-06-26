@@ -3,9 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/foundation.dart';
 import 'package:polyglot/jpeg/jpeg_extract_segments.dart';
 
-// jpegExtractSegments関数をインポートしてください
-// import 'path/to/jpeg_extract_segments.dart';
-
 void main() {
   late String dir;
   late final File file;
@@ -18,7 +15,7 @@ void main() {
       dir = dir.replaceAll('/test', '');
     }
     res = 'test/jpeg/res';
-    file = File('$dir/$res/default.jpg');
+    file = File('$dir/$res/polyglot_test.jpg');
     data = file.readAsBytesSync();
   });
 

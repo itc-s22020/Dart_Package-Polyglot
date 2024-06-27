@@ -6,8 +6,8 @@ List<Map<String, dynamic>> jpegExtractSegments(Uint8List data) {
     throw ArgumentError('Invalid JPEG file header');
   }
 
-  final segments = <Map<String, dynamic>>[];
-  var idx = 0;
+  final List<Map<String, dynamic>> segments = <Map<String, dynamic>>[];
+  int idx = 0;
 
   while (idx < data.length - 1) {
     if (data[idx] != 0xFF) {
@@ -15,8 +15,8 @@ List<Map<String, dynamic>> jpegExtractSegments(Uint8List data) {
       continue;
     }
 
-    final markerType = data[idx + 1];
-    final name = getJpegMarkerName(markerType);
+    final int markerType = data[idx + 1];
+    final String name = getJpegMarkerName(markerType);
 
     switch (markerType) {
       case 0xD8:
@@ -30,7 +30,7 @@ List<Map<String, dynamic>> jpegExtractSegments(Uint8List data) {
         break;
 
       case 0xDA:
-        final sosStart = idx;
+        final int sosStart = idx;
         idx += 2;
         while (idx < data.length - 1 && !(data[idx] == 0xFF && data[idx + 1] == 0xD9)) {
           idx++;
@@ -46,7 +46,7 @@ List<Map<String, dynamic>> jpegExtractSegments(Uint8List data) {
 
       default:
         idx += 2;
-        final length = ByteData.sublistView(data, idx, idx + 2).getUint16(0, Endian.big);
+        final int length = ByteData.sublistView(data, idx, idx + 2).getUint16(0, Endian.big);
         segments.add({
           'name': name,
           'data': Uint8List.fromList(data.sublist(idx - 2, idx + length)),

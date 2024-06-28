@@ -32,11 +32,13 @@ List<Map<String, dynamic>> jpegExtractSegments(Uint8List data) {
       case 0xDA:
         final int sosStart = idx;
         idx += 2;
-        while (idx < data.length - 1 && !(data[idx] == 0xFF && data[idx + 1] == 0xD9)) {
+        while (idx < data.length - 1 &&
+            !(data[idx] == 0xFF && data[idx + 1] == 0xD9)) {
           idx++;
         }
         if (idx == data.length - 1) {
-          throw UnsupportedError('JPEG file ended prematurely: no EOI marker found');
+          throw UnsupportedError(
+              'JPEG file ended prematurely: no EOI marker found');
         }
         segments.add({
           'name': name,
@@ -46,7 +48,8 @@ List<Map<String, dynamic>> jpegExtractSegments(Uint8List data) {
 
       default:
         idx += 2;
-        final int length = ByteData.sublistView(data, idx, idx + 2).getUint16(0, Endian.big);
+        final int length =
+            ByteData.sublistView(data, idx, idx + 2).getUint16(0, Endian.big);
         segments.add({
           'name': name,
           'data': Uint8List.fromList(data.sublist(idx - 2, idx + length)),
@@ -54,6 +57,5 @@ List<Map<String, dynamic>> jpegExtractSegments(Uint8List data) {
         idx += length;
     }
   }
-
   return segments;
 }

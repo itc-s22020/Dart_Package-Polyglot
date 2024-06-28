@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import '../crc32.dart';
+import 'crc32.dart';
 
 List<Map<String, dynamic>> pngExtractChunks(Uint8List data) {
   if (data[0] != 0x89 || data[1] != 0x50 || data[2] != 0x4E || data[3] != 0x47 ||
@@ -58,6 +58,5 @@ List<Map<String, dynamic>> pngExtractChunks(Uint8List data) {
     throw UnsupportedError(
         '.png file ended prematurely: no IEND header was found');
   }
-
   return chunks;
 }

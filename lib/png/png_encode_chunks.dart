@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import '../crc32.dart';
+import 'crc32.dart';
 
 Uint8List pngEncodeChunks(List<Map<String, dynamic>> chunks) {
   int totalSize = 8;
@@ -41,5 +41,5 @@ Uint8List pngEncodeChunks(List<Map<String, dynamic>> chunks) {
     ByteData.sublistView(output, idx, idx + 4).setInt32(0, crc, Endian.big);
     idx += 4;
   }
-    return output;
+  return output;
 }

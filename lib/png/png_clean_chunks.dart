@@ -1,9 +1,8 @@
 import 'dart:typed_data';
-import '../crc32.dart';
+import 'crc32.dart';
 import 'package:archive/archive.dart' hide Crc32;
 import 'package:polyglot/png/png_encode_chunks.dart';
 import 'package:polyglot/png/png_extract_chunks.dart';
-
 
 Uint8List pngCleanChunks(Uint8List data) {
   final List<Map<String, dynamic>> chunks = pngExtractChunks(data);
@@ -21,8 +20,10 @@ Uint8List pngCleanChunks(Uint8List data) {
 
   if (idatData.isNotEmpty) {
     try {
-      final List<int> decompressedData = const ZLibDecoder().decodeBytes(Uint8List.fromList(idatData));
-      final List<int> compressedData = const ZLibEncoder().encode(Uint8List.fromList(decompressedData));
+      final List<int> decompressedData =
+          const ZLibDecoder().decodeBytes(Uint8List.fromList(idatData));
+      final List<int> compressedData =
+          const ZLibEncoder().encode(Uint8List.fromList(decompressedData));
 
       if (compressedData.isNotEmpty) {
         final int crc = Crc32.getCrc32(compressedData);
@@ -38,6 +39,5 @@ Uint8List pngCleanChunks(Uint8List data) {
       throw UnsupportedError('Error processing IDAT data: $e');
     }
   }
-
   return pngEncodeChunks(essentialChunks);
 }

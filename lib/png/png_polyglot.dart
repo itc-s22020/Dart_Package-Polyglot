@@ -27,7 +27,5 @@ Uint8List pngPolyglot(Uint8List pngData, Uint8List polyglotData) {
     'data': Uint8List.fromList(idatData),
   };
   essentialChunks.insert(essentialChunks.length - 1, idatChunk);
-
   return pngEncodeChunks(essentialChunks);
 }
-

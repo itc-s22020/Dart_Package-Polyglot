@@ -1,6 +1,6 @@
 # Dart-Polyglot
 
-**Dart-Polyglot** は、Flutter用に作成されたポリグロット画像を生成するパッケージです。PNGおよびJPEGをサポート。このパッケージは画像内にZIP形式のファイルを埋め込むことのみを想定しています。
+**Dart-Polyglot** は、Flutter用に作成されたポリグロット画像を生成するパッケージです。PNGおよびJPEGをサポート。画像内にはZIP形式のファイルを埋め込むことのみを想定しています。このパッケージは100% Dartで構成されています。
 
 ### Supported Formats
 - **PNG**

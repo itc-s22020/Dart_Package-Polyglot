@@ -5,8 +5,9 @@
 ### Supported Formats
 - **PNG**
 - **JPEG**
-
+<!-- 
 詳細なドキュメントについては、[GitHub Wiki](https://github.com/itc-s22020/Dart-Polyglot/wiki)を参照してください。
+-->
 ## Install
 Supported Formats
 プロジェクトの``pubspec.yaml``にパッケージを追加
